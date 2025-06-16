@@ -38,9 +38,13 @@ function App() {
     <div className="bg-gray-900 text-white min-h-screen transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <header className="mb-12 text-center space-y-4">
-          <h1 className="text-5xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-500">
-            🚀 DSA Tracker
-          </h1>
+          <h1 className="text-5xl sm:text-6xl font-extrabold text-white flex items-center justify-center gap-3">
+  <span role="img" aria-label="rocket" className="text-white text-5xl">🚀</span>
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-500">
+    DSA Tracker
+  </span>
+</h1>
+
           <p className="text-lg text-gray-300">
             Ace DSA with curated sheets. Track, solve, and master every topic.
           </p>
