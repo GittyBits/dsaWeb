@@ -1,7 +1,7 @@
 // App.jsx
 import React, { useState, useEffect } from "react";
 import data from "./dsa-grouped.json";
-import { Progress } from "@/components/ui/progress";
+
 
 const DifficultyBadge = ({ level }) => {
   const color = {
