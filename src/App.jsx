@@ -102,7 +102,13 @@ function App() {
             {(solved / total * 100).toFixed(1)}%
           </span>
         </div>
-        <Progress value={(solved / total) * 100} className="h-4" />
+        <div className="w-full bg-gray-200 rounded h-4">
+  <div
+    className="bg-blue-500 h-4 rounded"
+    style={{ width: `${(solved / total) * 100}%` }}
+  />
+</div>
+
       </div>
 
       {data.map((section) => (
