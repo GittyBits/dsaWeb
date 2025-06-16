@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import data from "./dsa-grouped.json";
 
-
 const DifficultyBadge = ({ level }) => {
   const color = {
     Easy: "bg-green-500",
@@ -11,31 +10,40 @@ const DifficultyBadge = ({ level }) => {
   }[level] || "bg-gray-300";
 
   return (
-    <span className={`text-xs font-semibold px-2 py-1 rounded-full text-white ${color}`}>{level}</span>
+    <span
+      className={`text-xs font-semibold px-2 py-1 rounded-full text-white shadow ${color}`}
+    >
+      {level}
+    </span>
   );
 };
 
 const QuestionItem = ({ question, link, difficulty, companies, remarks, solved, onToggle }) => (
-  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 border-b hover:bg-muted/30 transition rounded-md">
+  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 border-b border-gray-200 hover:bg-muted/40 bg-white/80 backdrop-blur transition rounded-xl shadow-sm">
     <div className="flex-1 space-y-1">
-      <a href={link} target="_blank" rel="noopener noreferrer" className="text-base font-semibold text-blue-600 hover:underline">
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-base font-semibold text-blue-700 hover:underline"
+      >
         {question}
       </a>
-      <div className="text-sm text-muted-foreground">
-        {companies.length > 0 && <span className="mr-2">🏢 {companies.join(", ")}</span>}
+      <div className="text-sm text-muted-foreground space-x-2">
+        {companies.length > 0 && <span>🏢 {companies.join(", ")}</span>}
         {remarks && <span className="italic">💡 {remarks}</span>}
       </div>
     </div>
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-4">
       <DifficultyBadge level={difficulty} />
-      <label className="inline-flex items-center">
+      <label className="inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
           checked={solved}
           onChange={onToggle}
           className="form-checkbox h-4 w-4 text-blue-600"
         />
-        <span className="ml-1 text-xs text-muted-foreground">Done</span>
+        <span className="ml-2 text-xs text-muted-foreground">Done</span>
       </label>
     </div>
   </div>
@@ -45,16 +53,16 @@ const TopicAccordion = ({ topic, questions, progress, toggleSolved }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-background border rounded-xl shadow mb-5">
+    <div className="bg-white/60 backdrop-blur border border-gray-300 rounded-2xl shadow-lg mb-6">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full px-4 py-3 flex items-center justify-between text-left font-semibold text-lg hover:bg-secondary rounded-t-xl"
+        className="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-xl tracking-tight text-gray-800 hover:bg-blue-50 rounded-t-2xl"
       >
         <span>{topic}</span>
         <span>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div className="divide-y">
+        <div className="divide-y divide-gray-200">
           {questions.map((q, i) => (
             <QuestionItem
               key={`${q.question}-${i}`}
@@ -85,41 +93,44 @@ function App() {
   const solved = Object.values(progress).filter(Boolean).length;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-8 py-10">
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">📘 DSA Sheet by Shradha Ma'am</h1>
-        <p className="text-muted-foreground text-sm sm:text-base">
-          Master DSA in 2.5 Months. Track your progress across all major topics.
-        </p>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 to-indigo-100 text-gray-800 px-4 py-10 sm:px-8">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-10 text-center">
+          <h1 className="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+            📘 DSA Sheet by Shradha Ma'am
+          </h1>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground">
+            Master DSA in 2.5 Months. Track your progress across all major topics.
+          </p>
+        </header>
 
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-muted-foreground">
-            ✅ {solved} / {total} Questions Completed
-          </span>
-          <span className="text-sm font-medium text-muted-foreground">
-            {(solved / total * 100).toFixed(1)}%
-          </span>
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-muted-foreground">
+              ✅ {solved} / {total} Questions Completed
+            </span>
+            <span className="text-sm font-medium text-muted-foreground">
+              {(solved / total * 100).toFixed(1)}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+            <div
+              className="bg-gradient-to-r from-blue-400 to-indigo-500 h-full transition-all"
+              style={{ width: `${(solved / total) * 100}%` }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-gray-200 rounded h-4">
-  <div
-    className="bg-blue-500 h-4 rounded"
-    style={{ width: `${(solved / total) * 100}%` }}
-  />
-</div>
 
+        {data.map((section) => (
+          <TopicAccordion
+            key={section.topic}
+            topic={section.topic}
+            questions={section.questions}
+            progress={progress}
+            toggleSolved={toggleSolved}
+          />
+        ))}
       </div>
-
-      {data.map((section) => (
-        <TopicAccordion
-          key={section.topic}
-          topic={section.topic}
-          questions={section.questions}
-          progress={progress}
-          toggleSolved={toggleSolved}
-        />
-      ))}
     </div>
   );
 }
