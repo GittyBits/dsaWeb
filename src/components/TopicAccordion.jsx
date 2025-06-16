@@ -1,62 +1,35 @@
-// src/components/TopicAccordion.jsx
-import React, { useState } from "react";
+import React, { useState } from "react";Add commentMore actions
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import QuestionItem from "./QuestionItem";
-import { FaChevronDown, FaChevronUp, FaCheckCircle } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 
 function TopicAccordion({ topic, questions, progress, toggleSolved }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const completedCount = questions.filter(q => progress[q.link]).length;
-  const allDone = completedCount === questions.length;
-
-  const handleToggleAll = () => {
-    questions.forEach(q => {
-      if (progress[q.link] !== !allDone) {
-        toggleSolved(q.link, !allDone);
-      }
-    });
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-gray-800 rounded-xl mb-6 shadow-lg border border-gray-700">
+    <div className="mb-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 flex justify-between items-center text-left focus:outline-none"
+        onClick={() => setOpen(!open)}
+        className="w-full flex justify-between items-center px-4 py-3 bg-indigo-50 dark:bg-gray-800 hover:bg-indigo-100 dark:hover:bg-gray-700 transition"
       >
-        <div>
-          <h2 className="text-xl font-semibold text-white">{topic}</h2>
-          <p className="text-sm text-gray-400">
-            ✅ {completedCount} / {questions.length} completed
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggleAll();
-            }}
-            className={`text-xs font-medium px-3 py-1 rounded-full ${
-              allDone ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
-            } text-white shadow`}
-          >
-            {allDone ? "Undo All" : "Mark All Done"}
-          </button>
-          {isOpen ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
-        </div>
+        <span className="font-bold text-lg text-indigo-800 dark:text-indigo-200">{topic}</span>
+        {open ? <FaChevronUp /> : <FaChevronDown />}
       </button>
-
-      {isOpen && (
-        <div className="px-6 pb-4">
-          {questions.map((q, index) => (
-            <QuestionItem
-              key={index}
-              question={q}
-              solved={progress[q.link]}
-              toggleSolved={() => toggleSolved(q.link)}
-            />
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="p-4 space-y-3 bg-white dark:bg-gray-900"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {questions.map((q) => (
+              <QuestionItem key={q.link} q={q} progress={progress} toggleSolved={toggleSolved} />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
