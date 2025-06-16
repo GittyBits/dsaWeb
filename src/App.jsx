@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheckCircle, FaChevronDown, FaChevronUp, FaSun, FaMoon, FaExternalLinkAlt, FaTrophy, FaFire, FaCode, FaSearch, FaFilter, FaGithub, FaLinkedin, FaBookOpen, FaStar, FaCalendarAlt } from "react-icons/fa";
-import shraddha from "./data/shraddha.json";
-import lovebabbar from "./data/lovebabbar.json";
+import shraddha from "@data/shraddha.json";
+import lovebabbar from "@data/lovebabbar.json";
+
 
 const sources = {
   "Shraddha Ma'am": shraddha,
