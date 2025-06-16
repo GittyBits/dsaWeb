@@ -1,6 +1,12 @@
 // App.jsx
 import React, { useState, useEffect } from "react";
-import data from "./dsa-grouped.json";
+import shraddha from "./data/shraddha.json";
+import lovebabbar from "./data/lovebabbar.json";
+
+const sources = {
+  "Shradha Ma'am": shraddha,
+  "Love Babbar": lovebabbar,
+};
 
 const DifficultyBadge = ({ level }) => {
   const color = {
@@ -13,7 +19,7 @@ const DifficultyBadge = ({ level }) => {
     <span
       className={`text-xs font-semibold px-2 py-1 rounded-full text-white shadow ${color}`}
     >
-      {level}
+      {level || "Unknown"}
     </span>
   );
 };
@@ -30,7 +36,7 @@ const QuestionItem = ({ question, link, difficulty, companies, remarks, solved, 
         {question}
       </a>
       <div className="text-sm text-muted-foreground space-x-2">
-        {companies.length > 0 && <span>🏢 {companies.join(", ")}</span>}
+        {companies?.length > 0 && <span>🏢 {companies.join(", ")}</span>}
         {remarks && <span className="italic">💡 {remarks}</span>}
       </div>
     </div>
@@ -78,17 +84,24 @@ const TopicAccordion = ({ topic, questions, progress, toggleSolved }) => {
 };
 
 function App() {
+  const [selectedSheet, setSelectedSheet] = useState("Shradha Ma'am");
   const [progress, setProgress] = useState(() => {
-    const saved = localStorage.getItem("dsa-progress");
+    const saved = localStorage.getItem(`dsa-progress-${selectedSheet}`);
     return saved ? JSON.parse(saved) : {};
   });
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`dsa-progress-${selectedSheet}`);
+    setProgress(saved ? JSON.parse(saved) : {});
+  }, [selectedSheet]);
 
   const toggleSolved = (link) => {
     const newProgress = { ...progress, [link]: !progress[link] };
     setProgress(newProgress);
-    localStorage.setItem("dsa-progress", JSON.stringify(newProgress));
+    localStorage.setItem(`dsa-progress-${selectedSheet}`, JSON.stringify(newProgress));
   };
 
+  const data = sources[selectedSheet];
   const total = data.reduce((acc, t) => acc + t.questions.length, 0);
   const solved = Object.values(progress).filter(Boolean).length;
 
@@ -97,11 +110,23 @@ function App() {
       <div className="max-w-6xl mx-auto">
         <header className="mb-10 text-center">
           <h1 className="text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            📘 DSA Sheet by Shradha Ma'am
+            📘 {selectedSheet} DSA Sheet
           </h1>
           <p className="mt-2 text-base sm:text-lg text-muted-foreground">
-            Master DSA in 2.5 Months. Track your progress across all major topics.
+            Master DSA with top sheets. Track your progress across topics.
           </p>
+
+          <div className="mt-4 flex justify-center">
+            <select
+              value={selectedSheet}
+              onChange={(e) => setSelectedSheet(e.target.value)}
+              className="px-4 py-2 rounded-md border border-gray-300 shadow-sm bg-white text-sm"
+            >
+              {Object.keys(sources).map((name) => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </select>
+          </div>
         </header>
 
         <div className="mb-8">
