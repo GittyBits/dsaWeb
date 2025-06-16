@@ -4,7 +4,7 @@ import shraddhaImg from "../assets/shraddha.png";
 import lovebabbarImg from "../assets/lovebabbar.png";
 
 export default {
-  "Shradha Ma'am": {
+  "Shraddha Ma'am": {
     data: shraddha,
     img: shraddhaImg,
   },
