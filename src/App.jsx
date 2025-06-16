@@ -1,7 +1,7 @@
 // App.jsx
 import React, { useState, useEffect } from "react";
-import shraddha from "./data/shraddha.json";
-import lovebabbar from "./data/lovebabbar.json";
+import shraddha from "@data/shraddha.json";
+import lovebabbar from "@data/lovebabbar.json";
 
 const sources = {
   "Shradha Ma'am": shraddha,
