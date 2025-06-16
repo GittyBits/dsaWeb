@@ -12,7 +12,7 @@ import QuestionItem from "./components/QuestionItem";
 import TopicAccordion from "./components/TopicAccordion";
 
 function App() {
-  const [selectedSheet, setSelectedSheet] = useState("Shradha Ma'am");
+  const [selectedSheet, setSelectedSheet] = useState("Shraddha Ma'am");
   const [progress, setProgress] = useState(() => {
     const saved = localStorage.getItem(`dsa-progress-${selectedSheet}`);
     return saved ? JSON.parse(saved) : {};
