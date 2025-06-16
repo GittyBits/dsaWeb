@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import shraddha from "./data/shraddha.json";
 import lovebabbar from "./data/lovebabbar.json";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaCheckCircle, FaChevronDown, FaChevronUp, FaSun, FaMoon } from "react-icons/fa";
+import { FaCheckCircle, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import shraddhaImg from "./assets/shraddha.png";
 import lovebabbarImg from "./assets/lovebabbar.png";
 import sources from "./config/sources";
@@ -17,7 +17,6 @@ function App() {
     const saved = localStorage.getItem(`dsa-progress-${selectedSheet}`);
     return saved ? JSON.parse(saved) : {};
   });
-  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem(`dsa-progress-${selectedSheet}`);
@@ -36,17 +35,17 @@ function App() {
   const solved = Object.values(progress).filter(Boolean).length;
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-gradient-to-br from-sky-100 via-white to-indigo-200 text-gray-800"} min-h-screen transition-colors duration-300`}>
+    <div className="bg-gray-900 text-white min-h-screen transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 py-10">
         <header className="mb-12 text-center space-y-4">
-          <h1 className="text-5xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800 dark:from-blue-300 dark:to-purple-500">
+          <h1 className="text-5xl sm:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-purple-500">
             🚀 DSA Tracker
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-lg text-gray-300">
             Ace DSA with curated sheets. Track, solve, and master every topic.
           </p>
           <div className="flex justify-center gap-4 mt-4 items-center flex-wrap">
-            <div className="inline-flex gap-3 bg-white/50 px-4 py-2 rounded-xl shadow border border-gray-300 dark:bg-gray-800 dark:border-gray-600">
+            <div className="inline-flex gap-3 bg-gray-800 px-4 py-2 rounded-xl shadow border border-gray-600">
               {Object.keys(sources).map((name) => (
                 <button
                   key={name}
@@ -54,19 +53,13 @@ function App() {
                   className={`px-4 py-2 font-medium rounded-lg transition duration-200 ${
                     selectedSheet === name
                       ? "bg-indigo-600 text-white shadow"
-                      : "bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-700 dark:text-white"
+                      : "bg-gray-700 text-white hover:bg-gray-600"
                   }`}
                 >
                   {name}
                 </button>
               ))}
             </div>
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="ml-4 p-2 rounded-full bg-white dark:bg-gray-700 text-indigo-600 dark:text-white shadow hover:shadow-md"
-            >
-              {darkMode ? <FaSun /> : <FaMoon />}
-            </button>
           </div>
           <div className="flex justify-center mt-6">
             <img src={image} alt={selectedSheet} className="w-40 h-40 rounded-full shadow-xl object-cover border-4 border-indigo-400" />
@@ -75,14 +68,14 @@ function App() {
 
         <div className="mb-10">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-medium text-gray-300">
               ✅ {solved} / {total} Completed
             </span>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-medium text-gray-300">
               {(solved / total * 100).toFixed(1)}%
             </span>
           </div>
-          <div className="w-full h-4 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="w-full h-4 bg-gray-700 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-green-400 to-blue-500 transition-all"
               style={{ width: `${(solved / total) * 100}%` }}
