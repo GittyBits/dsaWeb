@@ -6,8 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@data': path.resolve(__dirname, 'data')  // allow clean import of JSON from /data
-    }
-  }
+      '@data': path.resolve(__dirname, 'src/data'),
+    },
+  },
 });
