@@ -1,4 +1,4 @@
-import React, { useState } from "react";Add commentMore actions
+import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import QuestionItem from "./QuestionItem";
 import { motion, AnimatePresence } from "framer-motion";
